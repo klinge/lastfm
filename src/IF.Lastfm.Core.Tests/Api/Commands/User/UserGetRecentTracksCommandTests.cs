@@ -82,6 +82,25 @@ namespace IF.Lastfm.Core.Tests.Api.Commands
         }
 
         [Test]
+        public async Task UserGetRecentTracks_HandleResponseNowPlaying_Success()
+        {
+            var command = new GetRecentTracksCommand(MAuth.Object, "rj")
+            {
+                Count = 1
+            };
+            
+            var file = GetFileContents("UserApi.UserGetRecentTracksNowPlaying.json");
+            var response = CreateResponseMessage(file);
+            var actual = await command.HandleResponse(response);
+
+            Assert.IsTrue(actual.Success);
+            Assert.AreEqual(6, actual.Content.Count);
+            Assert.AreEqual("Crosby, Stills, Nash & Young", actual.Content.ElementAt(0).ArtistName);
+            Assert.IsTrue(actual.Content.ElementAt(0).IsNowPlaying);
+            Assert.IsNull(actual.Content.ElementAt(1).IsNowPlaying);
+        }
+
+        [Test]
         public async Task HandleErrorResponse()
         {
             var command = new GetRecentTracksCommand(MAuth.Object, "rj")
