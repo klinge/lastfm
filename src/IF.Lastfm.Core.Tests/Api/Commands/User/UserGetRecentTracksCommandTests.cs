@@ -96,8 +96,8 @@ namespace IF.Lastfm.Core.Tests.Api.Commands
             Assert.IsTrue(actual.Success);
             Assert.AreEqual(6, actual.Content.Count);
             Assert.AreEqual("Crosby, Stills, Nash & Young", actual.Content.ElementAt(0).ArtistName);
-            Assert.IsTrue(actual.Content.ElementAt(0).IsNowPlaying);
-            Assert.IsNull(actual.Content.ElementAt(1).IsNowPlaying);
+            Assert.IsTrue(actual.Content.ElementAt(0).IsNowPlaying, "nowplaying should be true for the first track");
+            Assert.IsNull(actual.Content.ElementAt(1).IsNowPlaying, "nowplaying should be null for all tracks but the first");
         }
 
         [Test]
