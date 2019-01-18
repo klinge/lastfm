@@ -58,17 +58,22 @@ namespace IF.Lastfm.Core.Api
         /// Gets a list of recent scrobbled tracks for this user in reverse date order.
         /// </summary>
         /// <param name="username">Username to get scrobbles for.</param>
-        /// <param name="since">Lower threshold for scrobbles. Will not return scrobbles from before this time.</param>
-        /// <param name="pagenumber">Page numbering starts from 1. If set to 0, will not include the "now playing" track</param>
+        /// <param name="from">Optional lower threshold for scrobbles. Will not return scrobbles from before this time.</param>
+        /// <param name="to">Optional higher threshold for scrobbles. Will not return scrobbles after this time.</param>
+        /// <param name="extended">Optional parameter to get an extended response data set.false Set to true if wanted.</param>
+        /// <param name="pagenumber">Page number to get, numbering starts from 1.</param>
         /// <param name="count">Amount of scrobbles to return for this page.</param>
         /// <returns>Enumerable of LastTrack</returns>
-        public async Task<PageResponse<LastTrack>> GetRecentScrobbles(string username, DateTimeOffset? since = null, int pagenumber = 1, int count = LastFm.DefaultPageLength)
+        public async Task<PageResponse<LastTrack>> GetRecentScrobbles(string username, DateTimeOffset? from = null, 
+        DateTimeOffset? to = null, Boolean? extended = false, int pagenumber = 1, int count = LastFm.DefaultPageLength)
         {
             var command = new GetRecentTracksCommand(Auth, username)
             {
                 Page = pagenumber,
                 Count = count,
-                From = since,
+                From = from,
+                To = to, 
+                Extended = extended,
                 HttpClient = HttpClient
             };
 

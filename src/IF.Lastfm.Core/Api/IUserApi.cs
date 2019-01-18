@@ -24,7 +24,11 @@ namespace IF.Lastfm.Core.Api
             int pagenumber = 0,
             int count = LastFm.DefaultPageLength);
 
-        Task<PageResponse<LastTrack>> GetRecentScrobbles(string username, DateTimeOffset? since = null, int pagenumber = 0, int count = LastFm.DefaultPageLength);
+        Task<PageResponse<LastTrack>> GetRecentScrobbles(string username, 
+            DateTimeOffset? from = null, 
+            DateTimeOffset? to = null, 
+            Boolean? extended = false, 
+            int pagenumber = 1, int count = LastFm.DefaultPageLength);
 
         Task<PageResponse<LastStation>> GetRecentStations(string username,
             int pagenumber,
