@@ -41,20 +41,25 @@ namespace IF.Lastfm.Core.Tests.Integration.Commands
             {
                 Name = TRACK_NAME,
                 ArtistName = ARTIST_NAME,
-                AlbumName = ALBUM_NAME
+                ArtistUrl = new Uri("https://www.last.fm/music/Hot+Chip"),
+                AlbumName = ALBUM_NAME,
+                IsNowPlaying = true,
+                IsLoved = false
             };
             var expectedJson = expectedTrack.TestSerialise();
 
             var tracks = await Lastfm.User.GetRecentScrobbles(Lastfm.Auth.UserSession.Username, null, null, false, 1, 1);
             var scrobbledTrack = tracks.Single(x => !x.IsNowPlaying.GetValueOrDefault(false));
             
-            TestHelper.AssertSerialiseEqual(trackPlayed, scrobbledTrack.TimePlayed);
+            //TestHelper.AssertSerialiseEqual(trackPlayed, scrobbledTrack.TimePlayed);
+            Assert.That(trackPlayed, Is.EqualTo(scrobbledTrack.TimePlayed).Within(5).Minutes);
 
             scrobbledTrack.TimePlayed = null;
 
             // Some properties change from time to time; parsing is covered in unit tests
             scrobbledTrack.Mbid = null;
             scrobbledTrack.ArtistMbid = null;
+            scrobbledTrack.ArtistImages = null;
             scrobbledTrack.Images = null;
             scrobbledTrack.Url = null;
 

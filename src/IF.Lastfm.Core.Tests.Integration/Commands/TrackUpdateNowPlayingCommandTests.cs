@@ -36,8 +36,10 @@ namespace IF.Lastfm.Core.Tests.Integration.Commands
             {
                 Name = TRACK_NAME,
                 ArtistName = ARTIST_NAME,
+                ArtistUrl = new Uri("https://www.last.fm/music/Crystal+Castles"),
                 AlbumName = ALBUM_NAME,
-                IsNowPlaying = true
+                IsNowPlaying = true,
+                IsLoved = false
             };
 
             var actual = tracks.Content.Single(x => x.IsNowPlaying.GetValueOrDefault(false));
@@ -45,6 +47,7 @@ namespace IF.Lastfm.Core.Tests.Integration.Commands
             // Some properties change from time to time
             actual.Mbid = null;
             actual.ArtistMbid = null;
+            actual.ArtistImages = null;
             actual.Images = null;
             actual.Url = null;
 
